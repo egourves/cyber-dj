@@ -8,6 +8,8 @@ A shared music player:
 - any users can add songs to the playlist
 - every week the playlist is cleared
 */
+//define audio context
+const audioContext = new AudioContext();
 
 // create event listeners on the play buttons
 document.getElementById('play').addEventListener('click', play);
@@ -27,3 +29,9 @@ document.getElementById('volume').addEventListener('click', volume);
 // create event listeners on the add song buttons
 document.getElementById('add_song').addEventListener('click', add_song);
 
+//get user input, put it in the playlist, and clear the input field
+function add_song(){
+    var song = document.getElementById('url').value;
+    document.getElementById('playlist').innerHTML += song + '<br>';
+    document.getElementById('song').value = '';
+    }
