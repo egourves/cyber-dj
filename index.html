@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="style.css">
 <title>cyber-dj</title>
 </head>
 <body>
@@ -8,23 +9,24 @@
 <h1>Choose your music!</h1>
 
 <div>
-<button id="play">Play</button>
-<button id="pause">Pause</button>
-<button id="next">Next</button>
-<button id="previous">Previous</button>
-
     <div>
         <label for="name">Youtube url</label>
         <input type="text" id="url">
         <button id="add">Add</button>
-    <div>   
-        <label for="volume">Volume</label>
-        <input type="range" id="volume" name="volume" min="0" max="11">
-    </div>
-
+    
     <div id="song"></div>
     <div id="playlist"></div>
     <div id="player"></div>
+    <div id="buttons" style="display: none">
+        <button id="play">Play/Pause</button>
+        <button id="next">Next</button>
+        <button id="previous">Previous</button>
+        <br>
+        <div>   
+            <label for="volume">Volume</label>
+            <input type="range" id="volume" name="volume" min="0" max="11">
+        </div>    
+    </div>
 
 </div>
 

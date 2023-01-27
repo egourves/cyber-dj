@@ -15,7 +15,17 @@ A shared music player:
 var i =0;
 
 //playling status
-var playing = false;
+var initied = false;
+
+//player
+var player;
+var id;
+//load the youtube iframe api
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 //start
 console.log('music player');
@@ -26,9 +36,6 @@ var lenght = playlist.length;
 
 // create event listeners on the play buttons
 document.getElementById('play').addEventListener('click', play);
-
-// create event listeners on the pause buttons
-//document.getElementById('pause').addEventListener('click', pause);
 
 // create event listeners on the next buttons
 document.getElementById('next').addEventListener('click', next);
@@ -51,13 +58,50 @@ function add_song(){
     playlist[lenght] = song;
     document.getElementById('song').value = '';
     console.log(playlist);
+    if(!initied){
+        init();
+    }
     }
 
-//play the song
+//play or pause the song
 function play(){
-    playing = true;
-    document.getElementById("player").innerHTML = "<iframe id=\"player\" type=\"text/html\" width=\"640\" height=\"390\"src = " + playlist[i] + "?enablejsapi=1&origin=https://egourves.github.io/cyber-dj/\" frameborder=\"0\"></iframe>";
+    console.log('play');
+    //check if the song is playing
+    if(player.getPlayerState() == 1){
+        player.pauseVideo();
+    }else{
+        player.playVideo();
+    }
+
 }
+
+//init player
+function init(){
+    console.log('init');
+    initied = true;
+    //get id of the youtube video from the url
+    id = playlist[i].split('v=')[1];
+    console.log(id);
+    //show player
+    player.loadVideoById(playlist[i].split('v=')[1]);
+    document.getElementById('player').style.display = 'block';
+    document.getElementById('buttons').style.display = 'block';
+}
+
+//create the player
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '390',
+      width: '640',
+      videoId: id,
+      playerVars: {
+        'playsinline': 1
+      },
+    });
+    //hide player
+    document.getElementById('player').style.display = 'none';
+  }
+
 
 //next song
 function next(){
@@ -65,7 +109,7 @@ function next(){
     if(i >= playlist.length){
         i = 0;
     }
-    if(playing) play();
+    player.loadVideoById(playlist[i].split('v=')[1]);
 }
 
 //previous song
@@ -74,6 +118,6 @@ function previous(){
     if(i < 0){
         i = playlist.length-1;
     }
-   if(playing) play();
+    player.loadVideoById(playlist[i].split('v=')[1]);
 }
 
